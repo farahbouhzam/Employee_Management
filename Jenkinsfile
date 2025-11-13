@@ -2,42 +2,34 @@ pipeline {
     agent any
 
     tools {
-        maven "MAVEN_HOME"
-        jdk "JAVA_HOME"
+        maven 'Maven3'
+        jdk 'JDK17'
     }
 
     stages {
-
-        stage('Checkout') {
+        stage('Clone') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/farahbouhzam/Employee_Management.git'
+                git branch: 'main', url: 'https://github.com/farahbouhzam/Employee_Management.git'
             }
         }
 
-        stage('Compilation') {
+        stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                sh "mvn clean compile"
             }
         }
 
-        stage('Tests') {
+        stage('Test') {
             steps {
-                sh 'mvn test'
+                sh "mvn test"
             }
         }
 
-        stage('Build JAR') {
+        stage('Package') {
             steps {
-                sh 'mvn package -DskipTests=false'
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
+                sh "mvn package"
             }
         }
-
     }
 }
 
