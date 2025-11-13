@@ -2,32 +2,46 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'
-        jdk 'JDK17'
+        nodejs 'NodeJS'
     }
 
     stages {
-        stage('Clone') {
+
+        stage('Clone Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/farahbouhzam/Employee_Management.git'
             }
         }
 
-        stage('Build') {
+        stage('Install Backend Dependencies') {
             steps {
-                sh "mvn clean compile"
+                dir('backend') {
+                    bat 'npm install'
+                }
             }
         }
 
-        stage('Test') {
+        stage('Install Frontend Dependencies') {
             steps {
-                sh "mvn test"
+                dir('frontend') {
+                    bat 'npm install'
+                }
             }
         }
 
-        stage('Package') {
+        stage('Build Frontend') {
             steps {
-                sh "mvn package"
+                dir('frontend') {
+                    bat 'npm run build'
+                }
+            }
+        }
+
+        stage('Run Backend Tests') {
+            steps {
+                dir('backend') {
+                    bat 'npm test'
+                }
             }
         }
     }
