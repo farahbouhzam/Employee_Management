@@ -2,14 +2,16 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN_HOME'
-        jdk 'JAVA_HOME'
+        maven "MAVEN_HOME"
+        jdk "JAVA_HOME"
     }
 
     stages {
-        stage('Cloner le repo') {
+
+        stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/TON-REPO.git'
+                git branch: 'main',
+                    url: 'https://github.com/farahbouhzam/Employee_Management.git'
             }
         }
 
@@ -19,29 +21,23 @@ pipeline {
             }
         }
 
-        stage('Tests unitaires') {
+        stage('Tests') {
             steps {
                 sh 'mvn test'
             }
         }
 
-        stage('Build du package') {
+        stage('Build JAR') {
             steps {
-                sh 'mvn package'
+                sh 'mvn package -DskipTests=false'
             }
             post {
                 success {
-                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
             }
         }
 
-        stage("Analyse SonarQube") {
-            steps {
-                withSonarQubeEnv('MySonarServer') {
-                    sh "mvn sonar:sonar"
-                }
-            }
-        }
     }
 }
+
