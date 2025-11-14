@@ -17,13 +17,13 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                sh 'mvn -B clean compile'
+                bat 'mvn -B clean compile'
             }
         }
 
         stage('Run tests') {
             steps {
-                sh 'mvn -B test'
+                bat 'mvn -B test'
             }
         }
 
@@ -36,7 +36,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MySonarQubeServer') {
-                    sh 'mvn sonar:sonar'
+                    bat 'mvn sonar:sonar'
                 }
             }
         }
