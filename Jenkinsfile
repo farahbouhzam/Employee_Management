@@ -2,47 +2,52 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS'
+        maven 'Maven3'
+        jdk 'JDK17'
     }
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Clone repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/farahbouhzam/Employee_Management.git'
+                git branch: 'main',
+                    url: 'https://github.com/farahbouhzam/Employee_Management.git'
             }
         }
 
-        stage('Install Backend Dependencies') {
+        stage('Build with Maven') {
             steps {
-                dir('backend') {
-                    bat 'npm install'
-                }
+                sh 'mvn -B clean compile'
             }
         }
 
-        stage('Install Frontend Dependencies') {
+        stage('Run tests') {
             steps {
-                dir('frontend') {
-                    bat 'npm install'
-                }
+                sh 'mvn -B test'
             }
         }
 
-        stage('Build Frontend') {
+        stage('Package JAR') {
             steps {
-                dir('frontend') {
-                    bat 'npm run build'
-                }
+                sh 'mvn -B package'
             }
         }
 
-        stage('Run Backend Tests') {
+        stage('SonarQube Analysis') {
             steps {
-                dir('backend') {
-                    bat 'npm test'
+                withSonarQubeEnv('MySonarQubeServer') {
+                    sh 'mvn sonar:sonar'
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "BUILD SUCCESSFUL!"
+        }
+        failure {
+            echo "BUILD FAILED!"
         }
     }
 }
