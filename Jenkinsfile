@@ -8,35 +8,26 @@ pipeline {
 
     stages {
 
-        stage('Clone repository') {
-            steps {
-                git branch: 'master',
-                    url: 'https://github.com/farahbouhzam/Employee_Management.git'
-            }
-        }
-
         stage('Build with Maven') {
             steps {
-                bat 'mvn -B clean compile'
+                dir('backend') {
+                    bat 'mvn -B clean compile'
+                }
             }
         }
 
         stage('Run tests') {
             steps {
-                bat 'mvn -B test'
+                dir('backend') {
+                    bat 'mvn -B test'
+                }
             }
         }
 
         stage('Package JAR') {
             steps {
-                sh 'mvn -B package'
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('MySonarQubeServer') {
-                    bat 'mvn sonar:sonar'
+                dir('backend') {
+                    bat 'mvn -B package'
                 }
             }
         }
@@ -51,4 +42,5 @@ pipeline {
         }
     }
 }
+
 
