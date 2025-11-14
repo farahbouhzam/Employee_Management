@@ -8,39 +8,29 @@ pipeline {
 
     stages {
 
-        stage('Build with Maven') {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/farahbouhzam/Employee_Management.git'
+            }
+        }
+
+        stage('Build + Test (backend)') {
             steps {
                 dir('backend') {
-                    bat 'mvn -B clean compile'
+                    bat "mvn clean verify"
                 }
             }
         }
 
-        stage('Run tests') {
+        stage('SonarQube Analysis') {
             steps {
                 dir('backend') {
-                    bat 'mvn -B test'
+                    withSonarQubeEnv('sonarqube') {
+                        bat "mvn sonar:sonar -Dsonar.projectKey=employee-management -Dsonar.projectName='employee-management'"
+                    }
                 }
             }
-        }
-
-        stage('Package JAR') {
-            steps {
-                dir('backend') {
-                    bat 'mvn -B package'
-                }
-            }
-        }
-    }
-
-    post {
-        success {
-            echo "BUILD SUCCESSFUL!"
-        }
-        failure {
-            echo "BUILD FAILED!"
         }
     }
 }
-
-
