@@ -23,20 +23,23 @@ pipeline {
             }
         }
 
+        stage('Package') {
+            steps {
+                dir('backend') {
+                    bat "mvn clean package"
+                }
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 dir('backend') {
                     withSonarQubeEnv('sonarqube') {
-                        bat """
-                            mvn sonar:sonar ^
-                            -Dsonar.projectKey=employee-management ^
-                            -Dsonar.projectName=employee-management ^
-                            -Dsonar.host.url=%SONAR_HOST_URL% ^
-                            -Dsonar.login=%SONAR_AUTH_TOKEN%
-                        """
+                        bat "mvn sonar:sonar -Dsonar.projectKey=employee-management -Dsonar.projectName='employee-management'"
                     }
                 }
             }
         }
     }
 }
+
