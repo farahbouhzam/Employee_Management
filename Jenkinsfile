@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Build + Test (backend)') {
+        stage('Build & Test') {
             steps {
                 dir('backend') {
                     bat "mvn clean verify"
@@ -23,10 +23,10 @@ pipeline {
             }
         }
 
-        stage('Package') {
+        stage('Package App') {
             steps {
                 dir('backend') {
-                    bat "mvn clean package"
+                    bat "mvn clean package -DskipTests"
                 }
             }
         }
@@ -35,11 +35,36 @@ pipeline {
             steps {
                 dir('backend') {
                     withSonarQubeEnv('sonarqube') {
-                        bat "mvn sonar:sonar -Dsonar.projectKey=employee-management -Dsonar.projectName='employee-management'"
+                        bat """
+                            mvn sonar:sonar ^
+                            -Dsonar.projectKey=employee-management ^
+                            -Dsonar.projectName=employee-management ^
+                            -Dsonar.java.binaries=target
+                        """
                     }
                 }
             }
         }
+
+        // Décommenter ceci plus tard si tu veux ajouter Docker :
+        /*
+        stage('Build Docker Image') {
+            steps {
+                dir('backend') {
+                    bat "docker build -t farahbf/employee-app:1.0 ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub-token', variable: 'TOKEN')]) {
+                    bat "docker login -u farahbf -p %TOKEN%"
+                    bat "docker push farahbf/employee-app:1.0"
+                }
+            }
+        }
+        */
     }
 }
 
