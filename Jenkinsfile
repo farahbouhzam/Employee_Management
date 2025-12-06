@@ -41,6 +41,7 @@ pipeline {
                              -Dsonar.projectName=employee-management ^
                              -Dsonar.java.binaries=target ^
                              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
                 """
             }
         }
