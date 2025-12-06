@@ -32,18 +32,21 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-                 steps {
-                    dir('backend') {
-                      withSonarQubeEnv('sonarqube') {
-                         bat """
-                              mvn sonar:sonar ^
-                             -Dsonar.projectKey=employee-management ^
-                             -Dsonar.projectName=employee-management ^
-                             -Dsonar.java.binaries=target ^
-                             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-
+    steps {
+        dir('backend') {
+            withSonarQubeEnv('sonarqube') {
+                bat """
+                    mvn sonar:sonar ^
+                    -Dsonar.projectKey=employee-management ^
+                    -Dsonar.projectName=employee-management ^
+                    -Dsonar.java.binaries=target/classes ^
+                    -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                 """
             }
+        }
+    }
+}
+
         }
     }
 }
