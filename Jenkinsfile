@@ -52,7 +52,7 @@ pipeline {
         /* -------------------- SONARQUBE ANALYSIS --------------------- */
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar') {   // MUST match your Sonar server name
+                withSonarQubeEnv('sonarqube') {   // MUST match your Sonar server name
                     dir('backend') {
                         bat """
                             echo 📊 Running SonarQube analysis...
