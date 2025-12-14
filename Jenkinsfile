@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'      // MUST match your Jenkins tool name
-        jdk 'JDK17'         // MUST match your Jenkins tool name
+        maven 'Maven3'      
+        jdk 'JDK17'         
     }
 
     options {
@@ -17,7 +17,7 @@ pipeline {
         /* ------------------------- CHECKOUT ------------------------- */
         stage('Checkout') {
             steps {
-                echo "📥 Checking out repository..."
+                echo " Checking out repository..."
                 checkout scm
             }
         }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 dir('backend') {
                     bat """
-                        echo 🧪 Running backend tests with JaCoCo...
+                        echo  Running backend tests with JaCoCo...
                         mvn clean verify
                     """
                 }
@@ -52,10 +52,10 @@ pipeline {
         /* -------------------- SONARQUBE ANALYSIS --------------------- */
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') {   // MUST match your Sonar server name
+                withSonarQubeEnv('sonarqube') { 
                     dir('backend') {
                         bat """
-                            echo 📊 Running SonarQube analysis...
+                            echo Running SonarQube analysis...
 
                             mvn sonar:sonar ^
                                 -Dsonar.projectKey=employee-management ^
@@ -73,7 +73,7 @@ pipeline {
             steps {
                 dir('frontend') {
                     bat """
-                        echo 🎨 Installing frontend dependencies...
+                        echo  Installing frontend dependencies...
                         npm install
 
                         echo Building frontend...
@@ -86,7 +86,7 @@ pipeline {
                             echo Dist folder found:
                             dir dist
                         ) else (
-                            echo ❌ No build/dist folder created!
+                            echo  No build/dist folder created!
                             exit /b 1
                         )
                     """
@@ -97,7 +97,7 @@ pipeline {
         /* ---------------------- ARCHIVE ARTIFACTS -------------------- */
         stage('Archive Artifacts') {
             steps {
-                echo "📦 Archiving artifacts..."
+                echo " Archiving artifacts..."
                 archiveArtifacts artifacts: 
                     'backend/target/*.jar,frontend/build/**,frontend/dist/**',
                     allowEmptyArchive: true,
