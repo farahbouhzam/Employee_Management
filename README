@@ -1,4 +1,4 @@
-# Employee Management System
+## Employee Management System
 
 Employee Management is a full-stack application designed to manage employee data efficiently. It provides a RESTful backend API, a frontend user interface, and a clear OpenAPI specification to support CRUD operations and future extensibility. The project is structured to maintain a clean separation of concerns while remaining easy to deploy, extend, and maintain.
 
