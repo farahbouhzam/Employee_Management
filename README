@@ -1,14 +1,9 @@
-# Employee Management
+# Employee Management System
 
-## Overview
+Employee Management is a full-stack application designed to manage employee data efficiently. It provides a RESTful backend API, a frontend user interface, and a clear OpenAPI specification to support CRUD operations and future extensibility. The project is structured to maintain a clean separation of concerns while remaining easy to deploy, extend, and maintain.
 
-Employee Management is a full‑stack application designed to manage employee data efficiently. It provides a backend API, a frontend user interface, and a clear API specification to support CRUD operations and future extensibility.
+The repository is organized as follows:
 
-This repository is structured to separate concerns between backend services, frontend presentation, and documentation.
-
-## Project Structure
-
-```
 .
 ├── backend                  # Backend application (API)
 ├── frontend                 # Frontend application (UI)
@@ -17,130 +12,57 @@ This repository is structured to separate concerns between backend services, fro
 ├── Jenkinsfile              # CI/CD pipeline configuration
 ├── .gitignore
 └── LICENSE
-```
 
-## Features
+The main features of the application include creating, reading, updating, and deleting employee records, a RESTful API architecture, a frontend interface for employee management, API documentation using OpenAPI / Swagger, and CI/CD pipeline integration using Jenkins.
 
-* Create, read, update, and delete employee records
-* RESTful API architecture
-* Frontend interface for managing employees
-* API documentation using OpenAPI
-* CI/CD pipeline integration
+Before running the project, ensure that Git, Node.js (version 14 or later), npm or Yarn, and a database system (depending on the backend configuration) are installed on your machine.
 
-> Adjust this list if additional features are implemented.
+To install the project, clone the repository and navigate to the project directory:
 
-## Prerequisites
-
-Ensure the following tools are installed before running the project:
-
-* Git
-* Node.js (v14 or later)
-* npm or Yarn
-* A database system if required by the backend
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/chaimaeddib2005/Employee_Management.git
+git clone https://github.com/farahbouhzam/Employee_Management.git  
 cd Employee_Management
-```
 
-### Backend Setup
+Install dependencies for both backend and frontend:
 
-```bash
-cd backend
+cd backend  
+npm install  
+
+cd ../frontend  
 npm install
-```
 
-### Frontend Setup
+To run the application, start the backend and frontend servers:
 
-```bash
-cd ../frontend
-npm install
-```
+cd backend  
+npm start  
+or  
+npm run dev  
 
-## Running the Application
-
-### Backend
-
-From the `backend` directory:
-
-```bash
-npm start
-```
-
-or
-
-```bash
-npm run dev
-```
-
-### Frontend
-
-From the `frontend` directory:
-
-```bash
-npm start
-```
-
-or
-
-```bash
-npm run dev
-```
+cd ../frontend  
+npm start  
+or  
+npm run dev  
 
 The frontend will be available on the configured local development port.
 
-## API Documentation
+The API specification is defined in the openapi.yaml file and can be visualized using Swagger UI or any OpenAPI-compatible tool:
 
-The API specification is defined in the `openapi.yaml` file. It can be viewed using Swagger UI or any OpenAPI‑compatible tool.
-
-Example:
-
-```bash
 npx swagger-ui-dist openapi.yaml
-```
 
-## Environment Variables
+Environment variables must be configured before running the application. An example backend configuration is:
 
-Example backend `.env` configuration:
+PORT=4000  
+DATABASE_URL=your_database_url  
+JWT_SECRET=your_secret_key  
 
-```
-PORT=4000
-DATABASE_URL=your_database_url
-JWT_SECRET=your_secret_key
-```
+An example frontend configuration is:
 
-Example frontend `.env` configuration:
-
-```
 VITE_API_BASE_URL=http://localhost:4000/api
-```
 
-Adjust variables based on your setup.
+Once the application is running, users can view employee records, add new employees, update existing employee information, and delete employees.
 
-## Usage
+The project includes a Jenkinsfile to support CI/CD automation such as dependency installation, build steps, testing (if configured), and deployment stages.
 
-Once the application is running, users can:
+Contributions are welcome. Fork the repository, create a new branch, commit your changes, and open a pull request. Please follow clean code practices and write meaningful commit messages.
 
-* View employee records
-* Add new employees
-* Update existing employee information
-* Delete employees
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-## Contributing
-
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a new branch
-3. Commit your changes
-4. Open a pull request
-
-Follow clean code practices and write meaningful commit messages.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
